@@ -7,6 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Key 魔术师">
   <meta name="description" content="魔术师 Key 康升阳个人介绍网站，擅长近景魔术、舞台互动魔术与古彩戏法。">
+  <link rel="preload" as="image" href="assets/mobile/key-intro.jpg">
   <title>Key 康升阳 | 魔术师个人介绍</title>
   <style>
 :root {
@@ -1641,7 +1642,7 @@ body.intro-complete {
     <section class="magic-intro" id="home" aria-label="纸牌魔术开场">
       <div class="card-stage">
         <div class="magician-photo" aria-hidden="true">
-          <img src="assets/ppt/ppt-media-08.jpeg" alt="">
+          <img src="assets/mobile/key-intro.jpg" alt="" width="720" height="1080" decoding="async" fetchpriority="high">
           <div class="photo-caption">Key 康升阳</div>
         </div>
 
@@ -1681,7 +1682,7 @@ body.intro-complete {
 
       <div class="hero-visual reveal" aria-label="魔术师舞台视觉">
         <div class="portrait-card portrait-image-card">
-          <img src="assets/ppt/ppt-media-09.jpeg" alt="魔术师 Key 康升阳个人形象照">
+          <img src="assets/mobile/key-portrait.jpg" alt="魔术师 Key 康升阳个人形象照" width="720" height="1080" loading="eager" decoding="async">
           <div class="spark spark-a"></div>
           <div class="spark spark-b"></div>
           <div class="spark spark-c"></div>
@@ -1800,17 +1801,17 @@ body.intro-complete {
 
       <div class="gallery-grid">
         <article class="gallery-card reveal">
-          <img class="gallery-photo" src="assets/ppt/ppt-media-03.jpeg" alt="Key 在舞台进行互动魔术表演">
+          <img class="gallery-photo" src="assets/mobile/gallery-stage.jpg" alt="Key 在舞台进行互动魔术表演" width="900" height="506" loading="lazy" decoding="async">
           <h3>舞台互动魔术</h3>
           <p>在剧场灯光下完成舞台互动与视觉呈现。</p>
         </article>
         <article class="gallery-card reveal">
-          <img class="gallery-photo" src="assets/ppt/ppt-media-12.jpeg" alt="Key 在城市体验嘉年华进行近景魔术">
+          <img class="gallery-photo" src="assets/mobile/gallery-carnival.jpg" alt="Key 在城市体验嘉年华进行近景魔术" width="900" height="675" loading="lazy" decoding="async">
           <h3>城市嘉年华</h3>
           <p>路人近距感受魔术魅力，共鉴奇幻瞬间。</p>
         </article>
         <article class="gallery-card reveal">
-          <img class="gallery-photo" src="assets/ppt/ppt-media-04.jpeg" alt="Key 在魔术旮旯俱乐部演出">
+          <img class="gallery-photo" src="assets/mobile/gallery-club.jpg" alt="Key 在魔术旮旯俱乐部演出" width="720" height="1280" loading="lazy" decoding="async">
           <h3>魔术旮旯舞台</h3>
           <p>在近距离剧场中与观众完成沉浸式互动。</p>
         </article>
@@ -1906,6 +1907,7 @@ const secondPage = document.querySelector("#brand");
 const deckFaces = ["A♠", "K♥", "Q♦", "J♣", "10♠", "9♥", "8♦", "7♣", "joker", "A♦", "K♣", "Q♠"];
 const proximityRadius = 210;
 const finalRadius = 18;
+const isTouchDevice = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 
 let lastTrailAt = 0;
 let lastParticleAt = 0;
@@ -1964,7 +1966,7 @@ window.addEventListener("scroll", () => {
 const createTrailCard = (x, y) => {
   const now = performance.now();
 
-  if (now - lastTrailAt < 34) {
+  if (now - lastTrailAt < (isTouchDevice ? 70 : 34)) {
     return;
   }
 
@@ -2068,11 +2070,14 @@ const startFinalReveal = () => {
   aceCard.style.setProperty("--split-progress", "1");
   magicIntro.classList.add("is-splitting", "is-photo", "is-final");
 
-  for (let index = 0; index < 42; index += 1) {
+  const burstCount = isTouchDevice ? 22 : 42;
+  const revealParticleCount = isTouchDevice ? 12 : 28;
+
+  for (let index = 0; index < burstCount; index += 1) {
     createBurstPiece(center.x, center.y);
   }
 
-  for (let index = 0; index < 28; index += 1) {
+  for (let index = 0; index < revealParticleCount; index += 1) {
     createMagicParticle(center.x, center.y, 1);
   }
 
@@ -2098,11 +2103,11 @@ const updateAceByPointer = (x, y) => {
 
   if (progress > 0) {
     const now = performance.now();
-    const interval = 90 - progress * 58;
+    const interval = isTouchDevice ? 120 - progress * 60 : 90 - progress * 58;
 
     if (now - lastParticleAt > interval) {
       lastParticleAt = now;
-      const particleCount = Math.ceil(1 + progress * 5);
+      const particleCount = isTouchDevice ? Math.ceil(1 + progress * 2) : Math.ceil(1 + progress * 5);
 
       for (let index = 0; index < particleCount; index += 1) {
         createMagicParticle(center.x, center.y, progress);

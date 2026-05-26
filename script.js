@@ -8,6 +8,7 @@ const secondPage = document.querySelector("#brand");
 const deckFaces = ["A♠", "K♥", "Q♦", "J♣", "10♠", "9♥", "8♦", "7♣", "joker", "A♦", "K♣", "Q♠"];
 const proximityRadius = 210;
 const finalRadius = 18;
+const isTouchDevice = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 
 let lastTrailAt = 0;
 let lastParticleAt = 0;
@@ -66,7 +67,7 @@ window.addEventListener("scroll", () => {
 const createTrailCard = (x, y) => {
   const now = performance.now();
 
-  if (now - lastTrailAt < 34) {
+  if (now - lastTrailAt < (isTouchDevice ? 70 : 34)) {
     return;
   }
 
@@ -170,11 +171,14 @@ const startFinalReveal = () => {
   aceCard.style.setProperty("--split-progress", "1");
   magicIntro.classList.add("is-splitting", "is-photo", "is-final");
 
-  for (let index = 0; index < 42; index += 1) {
+  const burstCount = isTouchDevice ? 22 : 42;
+  const revealParticleCount = isTouchDevice ? 12 : 28;
+
+  for (let index = 0; index < burstCount; index += 1) {
     createBurstPiece(center.x, center.y);
   }
 
-  for (let index = 0; index < 28; index += 1) {
+  for (let index = 0; index < revealParticleCount; index += 1) {
     createMagicParticle(center.x, center.y, 1);
   }
 
@@ -200,11 +204,11 @@ const updateAceByPointer = (x, y) => {
 
   if (progress > 0) {
     const now = performance.now();
-    const interval = 90 - progress * 58;
+    const interval = isTouchDevice ? 120 - progress * 60 : 90 - progress * 58;
 
     if (now - lastParticleAt > interval) {
       lastParticleAt = now;
-      const particleCount = Math.ceil(1 + progress * 5);
+      const particleCount = isTouchDevice ? Math.ceil(1 + progress * 2) : Math.ceil(1 + progress * 5);
 
       for (let index = 0; index < particleCount; index += 1) {
         createMagicParticle(center.x, center.y, progress);
