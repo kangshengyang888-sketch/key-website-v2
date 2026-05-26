@@ -235,6 +235,32 @@ window.addEventListener("pointermove", (event) => {
   updateAceByPointer(event.clientX, event.clientY);
 });
 
+window.addEventListener(
+  "pointerdown",
+  (event) => {
+    if (document.body.classList.contains("intro-complete")) {
+      return;
+    }
+
+    createTrailCard(event.clientX, event.clientY);
+    updateAceByPointer(event.clientX, event.clientY);
+  },
+  { passive: true }
+);
+
+window.addEventListener(
+  "touchmove",
+  (event) => {
+    if (!magicIntro || document.body.classList.contains("intro-complete")) {
+      return;
+    }
+
+    // Keep the opening magic interaction from turning into page scroll on phones.
+    event.preventDefault();
+  },
+  { passive: false }
+);
+
 if (magicIntro) {
   magicIntro.addEventListener("pointerleave", resetAce);
 }

@@ -1524,3 +1524,78 @@ body.intro-complete {
   object-fit: cover;
   border-radius: 1rem;
 }
+
+@media (hover: none), (pointer: coarse) {
+  html,
+  body {
+    width: 100%;
+    min-height: 100%;
+  }
+
+  body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body.intro-locked {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+  }
+
+  .magic-intro,
+  .card-stage {
+    min-height: 100svh;
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .ace-card {
+    width: min(70vw, 260px);
+    min-width: 210px;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .ace-suit {
+    font-size: clamp(7rem, 32vw, 10rem);
+  }
+
+  .magician-photo {
+    width: min(76vw, 330px);
+  }
+
+  .trail-card {
+    width: 2rem;
+    height: 2.8rem;
+    font-size: 0.7rem;
+  }
+
+  .hero {
+    min-height: auto;
+    padding-top: 5.8rem;
+  }
+
+  h1 {
+    font-size: clamp(2.65rem, 13vw, 4.6rem);
+  }
+
+  h2 {
+    font-size: clamp(1.85rem, 9vw, 3rem);
+  }
+
+  .site-nav {
+    max-width: calc(100vw - 2rem);
+  }
+
+  .gallery-photo {
+    min-height: 190px;
+    max-height: 230px;
+  }
+
+  .contact-info {
+    align-items: center;
+    flex-direction: column;
+  }
+}
